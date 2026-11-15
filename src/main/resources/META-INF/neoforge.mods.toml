@@ -1,0 +1,43 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "createftbguard"
+version = "1.0.0"
+displayName = "Create FTB Chunks Guard"
+authors = "Admin"
+description = '''
+Blocks Create contraptions, trains, and airships from interacting with or entering claimed FTB Chunks, plus anti-dupe protections.
+'''
+
+[[dependencies.createftbguard]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "SERVER"
+
+[[dependencies.createftbguard]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
+ordering = "NONE"
+side = "SERVER"
+
+[[dependencies.createftbguard]]
+modId = "ftbchunks"
+type = "required"
+versionRange = "[2101.1,)"
+ordering = "AFTER"
+side = "SERVER"
+
+[[dependencies.createftbguard]]
+modId = "create"
+type = "required"
+versionRange = "[6.0,)"
+ordering = "AFTER"
+side = "SERVER"
+
+[[mixins]]
+config = "createftbguard.mixins.json"
