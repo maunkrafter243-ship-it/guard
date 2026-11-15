@@ -20,33 +20,34 @@ public class FtbClaimHelper {
             return true;
         }
 
-        if (!FTBChunksAPI.isManagerLoaded()) {
-            return true;
-        }
+        try {
+            var manager = FTBChunksAPI.api().getManager();
+            if (manager == null) return true;
 
-        ChunkDimPos chunkPos = new ChunkDimPos(serverLevel.dimension(), targetPos);
-        ClaimedChunk claim = FTBChunksAPI.api().getManager().getChunk(chunkPos);
+            ChunkDimPos chunkPos = new ChunkDimPos(serverLevel, targetPos);
+            ClaimedChunk claim = manager.getChunk(chunkPos);
 
-        if (claim == null) {
-            return GuardConfig.ALLOW_WILDERNESS_FROM_CLAIM.get();
-        }
+            if (claim == null) {
+                return GuardConfig.ALLOW_WILDERNESS_FROM_CLAIM.get();
+            }
 
-        if (ownerUuid == null) {
-            return false;
-        }
+            if (ownerUuid == null) {
+                return false;
+            }
 
-        Team chunkTeam = claim.getTeamData().getTeam();
+            Team chunkTeam = claim.getTeamData().getTeam();
 
-        if (chunkTeam.getRankForPlayer(ownerUuid).isMemberOrBetter()) {
-            return true;
-        }
-
-        if (GuardConfig.ALLOW_ALLIES.get()) {
-            Optional<Team> ownerTeamOpt = FTBTeamsAPI.api().getManager().getTeamForPlayerID(ownerUuid);
-            if (ownerTeamOpt.isPresent() && chunkTeam.isAlly(ownerTeamOpt.get().getId())) {
+            if (chunkTeam.getRankForPlayer(ownerUuid).isMemberOrBetter()) {
                 return true;
             }
-        }
+
+            if (GuardConfig.ALLOW_ALLIES.get()) {
+                Optional<Team> ownerTeamOpt = FTBTeamsAPI.api().getManager().getTeamForPlayerID(ownerUuid);
+                if (ownerTeamOpt.isPresent() && chunkTeam.isAllied(ownerTeamOpt.get())) {
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {}
 
         return false;
     }
@@ -56,28 +57,31 @@ public class FtbClaimHelper {
             return true;
         }
 
-        if (!FTBChunksAPI.isManagerLoaded()) {
-            return true;
-        }
+        try {
+            var manager = FTBChunksAPI.api().getManager();
+            if (manager == null) return true;
 
-        ClaimedChunk sourceClaim = FTBChunksAPI.api().getManager().getChunk(new ChunkDimPos(serverLevel.dimension(), sourcePos));
-        ClaimedChunk targetClaim = FTBChunksAPI.api().getManager().getChunk(new ChunkDimPos(serverLevel.dimension(), targetPos));
+            ClaimedChunk sourceClaim = manager.getChunk(new ChunkDimPos(serverLevel, sourcePos));
+            ClaimedChunk targetClaim = manager.getChunk(new ChunkDimPos(serverLevel, targetPos));
 
-        if (targetClaim == null) {
-            return GuardConfig.ALLOW_WILDERNESS_FROM_CLAIM.get();
-        }
+            if (targetClaim == null) {
+                return GuardConfig.ALLOW_WILDERNESS_FROM_CLAIM.get();
+            }
 
-        if (sourceClaim == null) {
-            return false;
-        }
+            if (sourceClaim == null) {
+                return false;
+            }
 
-        Team sourceTeam = sourceClaim.getTeamData().getTeam();
-        Team targetTeam = targetClaim.getTeamData().getTeam();
+            Team sourceTeam = sourceClaim.getTeamData().getTeam();
+            Team targetTeam = targetClaim.getTeamData().getTeam();
 
-        if (sourceTeam.getId().equals(targetTeam.getId())) {
-            return true;
-        }
+            if (sourceTeam.getId().equals(targetTeam.getId())) {
+                return true;
+            }
 
-        return GuardConfig.ALLOW_ALLIES.get() && targetTeam.isAlly(sourceTeam.getId());
+            return GuardConfig.ALLOW_ALLIES.get() && targetTeam.isAllied(sourceTeam);
+        } catch (Exception ignored) {}
+
+        return true;
     }
 }
