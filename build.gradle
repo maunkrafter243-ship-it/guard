@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.42-beta'
+}
+
+version = '1.0.0'
+group = 'com.example.createftbguard'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.architectury.dev' }
+    maven { url = 'https://maven.ftb.dev/releases' }
+    maven { url = 'https://maven.createmod.net' }
+    maven { url = 'https://mvn.devos.one/snapshots' }
+    maven { url = 'https://maven.ithundxr.dev/mirror' }
+}
+
+neoForge {
+    version = "21.1.77"
+    runs {
+        server {
+            server()
+            programArgument '--nogui'
+        }
+    }
+    mods {
+        createftbguard {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    compileOnly "dev.ftb.mods:ftb-library-neoforge:2101.1.3"
+    compileOnly "dev.ftb.mods:ftb-teams-neoforge:2101.1.0"
+    compileOnly "dev.ftb.mods:ftb-chunks-neoforge:2101.1.3"
+    compileOnly "com.simibubi.create:create-1.21.1:6.0.10:slim"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
