@@ -11,8 +11,12 @@ repositories {
     maven { url = 'https://maven.architectury.dev' }
     maven { url = 'https://maven.ftb.dev/releases' }
     maven { url = 'https://maven.createmod.net' }
-    maven { url = 'https://mvn.devos.one/snapshots' }
-    maven { url = 'https://maven.ithundxr.dev/mirror' }
+    maven {
+        url = 'https://cursemaven.com'
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 neoForge {
@@ -36,10 +40,8 @@ dependencies {
     compileOnly "dev.ftb.mods:ftb-teams-neoforge:2101.1.0"
     compileOnly "dev.ftb.mods:ftb-chunks-neoforge:2101.1.3"
 
-    // Create & Flywheel (1.21.1 NeoForge)
-    compileOnly "com.simibubi.create:create-1.21.1:6.0.0-1:slim"
-    compileOnly "net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.45"
-    compileOnly "dev.engine-room.flywheel:flywheel-neoforge-api-1.21.1:1.0.0-11"
+    // Create 6.0.0 (NeoForge 1.21.1) напрямую с CurseMaven
+    compileOnly "curse.maven:create-328085:6237186"
 }
 
 java {
