@@ -11,8 +11,9 @@ repositories {
     maven { url = 'https://maven.architectury.dev' }
     maven { url = 'https://maven.ftb.dev/releases' }
     maven { url = 'https://maven.createmod.net' }
-    maven { url = 'https://mvn.devos.one/snapshots' }
-    maven { url = 'https://maven.ithundxr.dev/mirror' }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 neoForge {
@@ -34,7 +35,9 @@ dependencies {
     compileOnly "dev.ftb.mods:ftb-library-neoforge:2101.1.3"
     compileOnly "dev.ftb.mods:ftb-teams-neoforge:2101.1.0"
     compileOnly "dev.ftb.mods:ftb-chunks-neoforge:2101.1.3"
-    compileOnly "com.simibubi.create:create-1.21.1:6.0.10:slim"
+    
+    // Берем Create прямо из папки libs в репозитории
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 java {
