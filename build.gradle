@@ -31,13 +31,10 @@ neoForge {
 }
 
 dependencies {
-    // FTB Mods (1.21.1 NeoForge)
     compileOnly "dev.ftb.mods:ftb-library-neoforge:2101.1.3"
     compileOnly "dev.ftb.mods:ftb-teams-neoforge:2101.1.0"
     compileOnly "dev.ftb.mods:ftb-chunks-neoforge:2101.1.3"
-
-    // Официальный Maven-репозиторий Create 1.21.1
-    compileOnly "com.simibubi.create:create-1.21.1:6.0.0-1:slim"
+    compileOnly "com.simibubi.create:create-1.21.1:6.0.10-280:slim"
 }
 
 java {
